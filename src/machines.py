@@ -1,6 +1,6 @@
 import json
 
-class FiniteStateMachine(object):
+class StateMachine(object):
 
     EMPTY_STATE = '_'
 
@@ -18,6 +18,8 @@ class FiniteStateMachine(object):
             into the automaton, the index of that symbol in the alphabet
             is used to determin the next state by looking at the
             state with the same index in the currents state value.
+            The state '_' signals, that there is no transition for the 
+            repective symbol. 
 
         start (char): The starting state represented by a single character.
 
