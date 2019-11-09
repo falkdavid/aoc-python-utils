@@ -1,6 +1,6 @@
 import pytest
 
-from src.machines import FiniteStateMachine
+from src.machines import StateMachine
 
 def test_fsm_example_automaton1():
 
@@ -13,8 +13,11 @@ def test_fsm_example_automaton1():
     start = '1'
     end = "4"
 
-    fsm = FiniteStateMachine(alph, tf, start, end)
+    fsm = StateMachine(alph, tf, start, end)
     assert fsm.check("ab")
     assert fsm.check("ac")
     assert fsm.check("cb")
     assert not fsm.check("bc")
+    assert not fsm.check("aaaaa")
+
+    assert fsm.check("abd")
