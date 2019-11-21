@@ -1,4 +1,5 @@
 import json
+import re
 
 class StateMachine(object):
 
@@ -30,11 +31,7 @@ class StateMachine(object):
         The following automaton accepts the words 'ab', 'ac', and 'cb'.
 
         alph = "abc"
-        tf = {
-            '1':"2_3"
-            '2':"_44"
-            '3':"_4_"
-        }
+        tf = "1:2_3; 2:_44; 3:_4_"
     """
     def __init__(self, alph, tf, start, end=""):
         self.alph = alph
@@ -42,12 +39,13 @@ class StateMachine(object):
         self.end = end
         
         self.state = start
-        try:
-            tf_dict = json.loads(tf)
-        except:
-            tf_dict = tf
-
-        self.tf = {k:{alph[i]:v[i] for i in range(len(alph))} for k,v in tf_dict.items()}
+        tf_string = re.sub(r"\s+", "", tf)
+        tf_dict = {t.split(':')[0]:t.split(':')[1] 
+                   for t in tf_string.split(';') 
+                   if len(t) > 0 and ":" in t}
+        self.tf = {k:{alph[i]:v[i] 
+                   for i in range(len(alph))} 
+                   for k,v in tf_dict.items()}
         
     def feed(self, word):
         for c in word:
